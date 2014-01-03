@@ -1,5 +1,6 @@
 <?php
 
+
 class MasterController {
     
     private $config;

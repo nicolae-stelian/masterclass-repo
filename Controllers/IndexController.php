@@ -1,5 +1,6 @@
 <?php
 
+
 class Index {
     
     protected $db;
@@ -36,6 +37,6 @@ class Index {
         
         $content .= '</ol>';
         
-        require '../views/layout.phtml';
+        require '../Views/layout.phtml';
     }
 }

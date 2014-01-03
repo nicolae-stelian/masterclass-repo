@@ -55,7 +55,7 @@ class Story {
             ';
         }
 
-        require_once '../views/layout.phtml';
+        require_once '../Views/layout.phtml';
         
     }
     
@@ -95,7 +95,7 @@ class Story {
             </form>
         ';
         
-        require_once '../views/layout.phtml';
+        require_once '../Views/layout.phtml';
     }
     
 }
