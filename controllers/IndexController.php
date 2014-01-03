@@ -36,6 +36,6 @@ class Index {
         
         $content .= '</ol>';
         
-        require 'layout.phtml';
+        require '../views/layout.phtml';
     }
 }

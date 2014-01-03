@@ -54,8 +54,8 @@ class Story {
                 ' . $comment['comment'] . '</div>
             ';
         }
-        
-        require_once 'layout.phtml';
+
+        require_once '../views/layout.phtml';
         
     }
     
@@ -95,7 +95,7 @@ class Story {
             </form>
         ';
         
-        require_once 'layout.phtml';
+        require_once '../views/layout.phtml';
     }
     
 }
