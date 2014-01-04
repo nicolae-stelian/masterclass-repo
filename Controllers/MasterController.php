@@ -4,23 +4,30 @@
 class MasterController {
     
     private $config;
-    private $serverRedirectBase;
-    private $serverRequestUri;
+    private $serverRedirectBase = '';
+    private $serverRequestUri = '';
     
     public function __construct($config, $requestUri = '', $redirectBase = '') {
-        $this->_setupConfig($config);
-        $this->serverRequestUri = $_SERVER['REQUEST_URI'];
-        $this->serverRedirectBase = $_SERVER['REDIRECT_BASE'];
+        $this->config = $config;
+        if (isset($_SERVER['REQUEST_URI'])) {
+            $this->serverRequestUri = $_SERVER['REQUEST_URI'];
+        }
+
+        if (isset($_SERVER['REDIRECT_BASE'])) {
+            $this->serverRedirectBase = $_SERVER['REDIRECT_BASE'];
+        }
 
         if (!empty($requestUri)) {
             $this->serverRequestUri = $requestUri;
+        }
+        if (!empty($redirectBase)) {
             $this->serverRedirectBase = $redirectBase;
         }
 
     }
     
     public function execute() {
-        $call = $this->_determineControllers();
+        $call = $this->determineControllers();
         $call_class = $call['call'];
         $class = ucfirst(array_shift($call_class));
         $method = array_shift($call_class);
@@ -28,17 +35,9 @@ class MasterController {
         return $o->$method();
     }
     
-    public function _determineControllers()
+    public function determineControllers()
     {
-        if (isset($this->serverRedirectBase)) {
-            $rb = $this->serverRedirectBase;
-        } else {
-            $rb = '';
-        }
-
-
-        $ruri = $this->serverRequestUri;
-        $path = str_replace($rb, '', $ruri);
+        $path = str_replace($this->serverRedirectBase, '', $this->serverRequestUri);
         $return = array();
         
         foreach($this->config['routes'] as $k => $v) {
@@ -54,9 +53,5 @@ class MasterController {
         
         return $return;
     }
-    
-    private function _setupConfig($config) {
-        $this->config = $config;
-    }
-    
+
 }
