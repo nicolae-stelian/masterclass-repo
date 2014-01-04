@@ -1,6 +1,6 @@
 <?php
 
-class Story {
+class StoryController {
     
     public function __construct($config) {
         $dbconfig = $config['database'];

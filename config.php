@@ -8,15 +8,16 @@ return array(
         'host' => 'localhost',
         'name' => 'masteroop',
     ),
-    
+
     'routes' => array(
-        '' => 'index/index',
-        'story' => 'story/index',
-        'story/create' => 'story/create',
-        'comment/create' => 'comment/create',
-        'user/create' => 'user/create',
-        'user/account' => 'user/account',
-        'user/login' => 'user/login',
-        'user/logout' => 'user/logout',
+        ''               => 'indexController/index',
+        'story'          => 'storyController/index',
+        'story/create'   => 'storyController/create',
+        'comment/create' => 'commentController/create',
+
+        'user/create'    => 'userController/create',
+        'user/account'   => 'userController/account',
+        'user/login'     => 'userController/login',
+        'user/logout'    => 'userController/logout',
     ),
 );

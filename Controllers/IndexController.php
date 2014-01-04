@@ -1,7 +1,7 @@
 <?php
 
 
-class Index {
+class IndexController {
     
     protected $db;
     

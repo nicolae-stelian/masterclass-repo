@@ -1,7 +1,7 @@
 <?php
 
 
-class Comment {
+class CommentController {
     
     public function __construct($config) {
         $dbconfig = $config['database'];
