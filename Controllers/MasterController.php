@@ -4,9 +4,19 @@
 class MasterController {
     
     private $config;
+    private $serverRedirectBase;
+    private $serverRequestUri;
     
-    public function __construct($config) {
+    public function __construct($config, $requestUri = '', $redirectBase = '') {
         $this->_setupConfig($config);
+        $this->serverRequestUri = $_SERVER['REQUEST_URI'];
+        $this->serverRedirectBase = $_SERVER['REDIRECT_BASE'];
+
+        if (!empty($requestUri)) {
+            $this->serverRequestUri = $requestUri;
+            $this->serverRedirectBase = $redirectBase;
+        }
+
     }
     
     public function execute() {
@@ -18,15 +28,16 @@ class MasterController {
         return $o->$method();
     }
     
-    private function _determineControllers()
+    public function _determineControllers()
     {
-        if (isset($_SERVER['REDIRECT_BASE'])) {
-            $rb = $_SERVER['REDIRECT_BASE'];
+        if (isset($this->serverRedirectBase)) {
+            $rb = $this->serverRedirectBase;
         } else {
             $rb = '';
         }
-        
-        $ruri = $_SERVER['REQUEST_URI'];
+
+
+        $ruri = $this->serverRequestUri;
         $path = str_replace($rb, '', $ruri);
         $return = array();
         
@@ -36,8 +47,6 @@ class MasterController {
             if(preg_match($pattern, $path, $matches))
             {
                 $controller_details = $v;
-                $path_string = array_shift($matches);
-                $arguments = $matches;
                 $controller_method = explode('/', $controller_details);
                 $return = array('call' => $controller_method);
             }
