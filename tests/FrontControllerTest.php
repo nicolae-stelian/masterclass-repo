@@ -11,27 +11,31 @@ class MasterControllerTest extends PHPUnit_Framework_TestCase
             array (
                 'http://news.local',
                 'http://news.local/' ,
-                array('call' =>array('index', 'index')),
+                'Index',
+                'index',
             ),
             array (
                 'http://news.local',
                 'http://news.local/user/login' ,
-                array('call' =>array('user', 'login')),
+                'User',
+                'login',
             ),
             array (
                 'http://news.local',
                 'http://news.local/story/create' ,
-                array('call' =>array('story', 'create')),
+                'Story',
+                'create',
             ),
             array (
                 'http://news.local',
                 'http://news.local/comment/create' ,
-                array('call' =>array('comment', 'create')),
+                'Comment',
+                'create',
             ),
             array (
                 'http://news.local',
                 'http://news.local/user/logout' ,
-                array('call' =>array('user', 'logout')),
+                'User', 'logout',
             ),
         );
     }
@@ -39,31 +43,21 @@ class MasterControllerTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function determineController_WhenConfigIsEmpty()
+    public function determineControllerAnd_WhenConfigIsEmpty()
     {
         $config = array('routes' => array());
-        $controller = new MasterController($config);
-        $actual = $controller->determineControllers();
-        $this->assertEquals(array(), $actual);
+        $controller = new FrontController($config);
+        $actualController = $controller->getController();
+        $actualMethod = $controller->getMethod();
+        $this->assertEquals('', $actualController);
+        $this->assertEquals('', $actualMethod);
     }
-
-    /**
-     * @test
-     */
-    public function determineController_WhenHaveRedirectBaseAndEmptyConfig()
-    {
-        $config = array('routes' => array());
-        $controller = new MasterController($config, 'http://news.local/user/login', 'http://news.local');
-        $actual = $controller->determineControllers();
-        $this->assertEquals(array(), $actual);
-    }
-
 
     /**
      * @test
      * @dataProvider uriProvider
      */
-    public function determineController_WhenAllMatchesAreOk($baseUri, $requestUri, $expected)
+    public function determineControllerAndMethod_ForApplicationConfig($baseUri, $requestUri, $expectedController, $expectedMethod)
     {
         $config = array(
             'routes' => array(
@@ -78,9 +72,31 @@ class MasterControllerTest extends PHPUnit_Framework_TestCase
             ),
         );
 
-        $controller = new MasterController($config, $requestUri, $baseUri);
-        $actual = $controller->determineControllers();
-        $this->assertEquals($expected, $actual);
+        $controller = new FrontController($config, $requestUri, $baseUri);
+        $actualController = $controller->getController();
+        $actualMethod = $controller->getMethod();
+        $this->assertEquals($expectedController, $actualController);
+        $this->assertEquals($expectedMethod, $actualMethod);
+    }
+
+    /**
+     * @test
+     */
+    public function executeControllerAndMethod()
+    {
     }
 }
+
+//class MockController
+//{
+//    public function mockTrueMethodAction()
+//    {
+//        return true;
+//    }
+//
+//    public function mockFalseMethodAction()
+//    {
+//        return false;
+//    }
+//}
  
