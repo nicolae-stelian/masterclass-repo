@@ -5,37 +5,59 @@ require_once 'bootstrap.php';
 class MasterControllerTest extends PHPUnit_Framework_TestCase
 {
 
-    public static function uriProvider()
+    public static function determineController_UriAndRequestProvider()
     {
         return array(
-            array (
-                'http://news.local',
-                'http://news.local/' ,
-                'Index',
-                'index',
+            array(
+                'base_uri'    => 'http://news.local',
+                'request_uri' => 'http://news.local/',
+                'controller'  => 'Index',
+                'method'      => 'index',
             ),
-            array (
-                'http://news.local',
-                'http://news.local/user/login' ,
-                'User',
-                'login',
+            array(
+                'base_uri'    => 'http://news.local',
+                'request_uri' => 'http://news.local/user/login',
+                'controller'  => 'User',
+                'method'      => 'login',
             ),
-            array (
-                'http://news.local',
-                'http://news.local/story/create' ,
-                'Story',
-                'create',
+            array(
+                'base_uri'    => 'http://news.local',
+                'request_uri' => 'http://news.local/story/create',
+                'controller'  => 'Story',
+                'method'      => 'create',
             ),
-            array (
-                'http://news.local',
-                'http://news.local/comment/create' ,
-                'Comment',
-                'create',
+            array(
+                'base_uri'    => 'http://news.local',
+                'request_uri' => 'http://news.local/comment/create',
+                'controller'  => 'Comment',
+                'method'      => 'create',
             ),
-            array (
-                'http://news.local',
-                'http://news.local/user/logout' ,
-                'User', 'logout',
+            array(
+                'base_uri'    => 'http://news.local',
+                'request_uri' => 'http://news.local/user/logout',
+                'controller'  => 'User',
+                'method'      => 'logout',
+            ),
+        );
+    }
+
+    public static function executeController_UriAndRequestProvider()
+    {
+        return array(
+            array(
+                'base_uri'    => 'http://news.local',
+                'request_uri' => 'http://news.local/mock/true',
+                'result'      => true,
+            ),
+            array(
+                'base_uri'    => 'http://news.local',
+                'request_uri' => 'http://news.local/mock/false',
+                'result'      => false,
+            ),
+            array(
+                'base_uri'    => 'http://news.local',
+                'request_uri' => 'http://news.local/mock/content',
+                'result'      => 'testing',
             ),
         );
     }
@@ -55,10 +77,11 @@ class MasterControllerTest extends PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @dataProvider uriProvider
+     * @dataProvider determineController_UriAndRequestProvider
      */
-    public function determineControllerAndMethod_ForApplicationConfig($baseUri, $requestUri, $expectedController, $expectedMethod)
-    {
+    public function determineControllerAndMethod_ForApplicationConfig(
+        $baseUri, $requestUri, $expectedController, $expectedMethod
+    ) {
         $config = array(
             'routes' => array(
                 ''               => 'index/index',
@@ -81,22 +104,44 @@ class MasterControllerTest extends PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @dataProvider executeController_UriAndRequestProvider
      */
-    public function executeControllerAndMethod()
+    public function executeControllerAndMethod($baseUri, $requestUri, $expectedResult)
     {
+        $config = array(
+            'routes' => array(
+                'mock/true'    => 'mockController/mockTrueMethodAction',
+                'mock/false'   => 'mockController/mockFalseMethodAction',
+                'mock/content' => 'mockController/mockStringReturnAction',
+            )
+        );
+
+        $controller = new FrontController($config, $requestUri, $baseUri);
+        $result = $controller->execute();
+        $this->assertEquals($expectedResult, $result);
     }
 }
 
-//class MockController
-//{
-//    public function mockTrueMethodAction()
-//    {
-//        return true;
-//    }
-//
-//    public function mockFalseMethodAction()
-//    {
-//        return false;
-//    }
-//}
+/**
+ * Class MockController
+ *
+ * Needed for testing if FrontController execute controller methods
+ */
+class MockController
+{
+    public function mockTrueMethodAction()
+    {
+        return true;
+    }
+
+    public function mockFalseMethodAction()
+    {
+        return false;
+    }
+
+    public function mockStringReturnAction()
+    {
+        return 'testing';
+    }
+}
  
