@@ -1,0 +1,7 @@
+<phpunit>
+    <testsuites>
+        <testsuite name="MasterClassOop">
+            <file>tests/FrontControllerTest.php</file>
+        </testsuite>
+    </testsuites>
+</phpunit>

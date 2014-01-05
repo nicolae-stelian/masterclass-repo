@@ -1,7 +1,7 @@
 <?php
-require_once '../Controllers/FrontController.php';
-require_once '../Controllers/CommentController.php';
-require_once '../Controllers/UserController.php';
-require_once '../Controllers/StoryController.php';
-require_once '../Controllers/IndexController.php';
-require_once 'MockController.php';
+require_once __DIR__ . '/../Controllers/FrontController.php';
+require_once __DIR__ .'/../Controllers/CommentController.php';
+require_once __DIR__ .'/../Controllers/UserController.php';
+require_once __DIR__ .'/../Controllers/StoryController.php';
+require_once __DIR__ .'/../Controllers/IndexController.php';
+require_once __DIR__ .'/MockController.php';
