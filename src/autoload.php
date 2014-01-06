@@ -8,10 +8,12 @@ spl_autoload_register(
         if ($classes === null) {
             $classes = array(
                 'tests\\upvote\\controllers\\commentcontrollertest' => '/Tests/Upvote/Controllers/CommentControllerTest.php',
+                'tests\\upvote\\controllers\\indexcontrollertest' => '/Tests/Upvote/Controllers/IndexControllerTest.php',
                 'tests\\upvote\\controllers\\mastercontrollertest' => '/Tests/Upvote/Controllers/FrontControllerTest.php',
                 'tests\\upvote\\controllers\\mockcommentcontroller' => '/Tests/Upvote/Controllers/CommentControllerTest.php',
                 'tests\\upvote\\controllers\\mockcontroller' => '/Tests/Upvote/Controllers/MockController.php',
                 'upvote\\controllers\\commentcontroller' => '/Upvote/Controllers/CommentController.php',
+                'upvote\\controllers\\controller' => '/Upvote/Controllers/Controller.php',
                 'upvote\\controllers\\frontcontroller' => '/Upvote/Controllers/FrontController.php',
                 'upvote\\controllers\\indexcontroller' => '/Upvote/Controllers/IndexController.php',
                 'upvote\\controllers\\storycontroller' => '/Upvote/Controllers/StoryController.php',

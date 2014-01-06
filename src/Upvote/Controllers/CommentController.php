@@ -4,28 +4,12 @@ namespace Upvote\Controllers;
 
 use Upvote\Exceptions\UserNotAuthenticatedException;
 
-class CommentController
+class CommentController extends Controller
 {
-
-    /** @var \PDO $db */
-    protected $db;
-
-    public function __construct($config)
-    {
-        $user = $config['database']['user'];
-        $pass = $config['database']['pass'];
-        $host = $config['database']['host'];
-        $dbName = $config['database']['name'];
-
-        $dsn = 'mysql:host=' . $host . ';dbname=' . $dbName;
-        $this->createDbLink($dsn, $user, $pass);
-
-    }
-
     public function create()
     {
         if (!$this->isAuthenticated()) {
-           throw new UserNotAuthenticatedException();
+            throw new UserNotAuthenticatedException();
         }
 
         $sql = 'INSERT INTO comment (created_by, created_on, story_id, comment) VALUES (?, NOW(), ?, ?)';
@@ -48,11 +32,6 @@ class CommentController
         return true;
     }
 
-    protected function createDbLink($dsn, $user, $pass)
-    {
-        $this->db = new \PDO($dsn, $user, $pass);
-        $this->db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-    }
 
     protected function getUserName()
     {
