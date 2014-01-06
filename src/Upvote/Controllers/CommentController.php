@@ -1,5 +1,8 @@
 <?php
 
+namespace Upvote\Controllers;
+
+use Upvote\Exceptions\UserNotAuthenticatedException;
 
 class CommentController
 {
@@ -47,8 +50,8 @@ class CommentController
 
     protected function createDbLink($dsn, $user, $pass)
     {
-        $this->db = new PDO($dsn, $user, $pass);
-        $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $this->db = new \PDO($dsn, $user, $pass);
+        $this->db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
     }
 
     protected function getUserName()
@@ -72,7 +75,3 @@ class CommentController
         return filter_input(INPUT_POST, $field, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     }
 }
-
-class UserNotAuthenticatedException extends Exception{
-
-};

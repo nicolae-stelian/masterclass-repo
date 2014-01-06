@@ -1,9 +1,11 @@
 <?php
 
-require_once 'bootstrap.php';
+namespace Tests\Upvote\Controllers;
+
+use Upvote\Controllers\CommentController;
 
 
-class CommentControllerTest extends PHPUnit_Framework_TestCase
+class CommentControllerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var MockCommentController
@@ -23,7 +25,7 @@ class CommentControllerTest extends PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException UserNotAuthenticatedException
+     * @expectedException  \Upvote\Exceptions\UserNotAuthenticatedException
      */
     public function create_WhenUserIsNotLogged_MustThrowException()
     {
@@ -57,7 +59,6 @@ class CommentControllerTest extends PHPUnit_Framework_TestCase
     }
 
 
-
 }
 
 class MockCommentController extends CommentController
@@ -73,15 +74,16 @@ class MockCommentController extends CommentController
 
     public function setAuthenticated($authenticated)
     {
-        $this->authenticated = (bool) $authenticated;
+        $this->authenticated = (bool)$authenticated;
     }
 
     public function createDbLink()
-    {}
+    {
+    }
 
     public function setPdo($pdo)
     {
-        $this->db =  $pdo;
+        $this->db = $pdo;
     }
 
     protected function getUserName()

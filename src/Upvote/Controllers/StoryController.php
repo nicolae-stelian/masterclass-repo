@@ -1,12 +1,16 @@
 <?php
 
+
+namespace Upvote\Controllers;
+
+
 class StoryController {
     
     public function __construct($config) {
         $dbconfig = $config['database'];
         $dsn = 'mysql:host=' . $dbconfig['host'] . ';dbname=' . $dbconfig['name'];
-        $this->db = new PDO($dsn, $dbconfig['user'], $dbconfig['pass']);
-        $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $this->db = new \PDO($dsn, $dbconfig['user'], $dbconfig['pass']);
+        $this->db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
     }
     
     public function index() {
@@ -23,13 +27,13 @@ class StoryController {
             exit;
         }
         
-        $story = $story_stmt->fetch(PDO::FETCH_ASSOC);
+        $story = $story_stmt->fetch(\PDO::FETCH_ASSOC);
         
         $comment_sql = 'SELECT * FROM comment WHERE story_id = ?';
         $comment_stmt = $this->db->prepare($comment_sql);
         $comment_stmt->execute(array($story['id']));
         $comment_count = $comment_stmt->rowCount();
-        $comments = $comment_stmt->fetchAll(PDO::FETCH_ASSOC);
+        $comments = $comment_stmt->fetchAll(\PDO::FETCH_ASSOC);
 
         $content = '
             <a class="headline" href="' . $story['url'] . '">' . $story['headline'] . '</a><br />
@@ -55,7 +59,7 @@ class StoryController {
             ';
         }
 
-        require_once '../Views/layout.phtml';
+        require_once __DIR__ . '/../Views/layout.phtml';
         
     }
     
@@ -94,8 +98,8 @@ class StoryController {
                 <input type="submit" name="create" value="Create" />
             </form>
         ';
-        
-        require_once '../Views/layout.phtml';
+
+        require_once __DIR__ . '/../Views/layout.phtml';
     }
     
 }

@@ -1,5 +1,8 @@
 <?php
 
+namespace Upvote\Controllers;
+
+
 class UserController {
     
     public $db;
@@ -7,8 +10,8 @@ class UserController {
     public function __construct($config) {
         $dbconfig = $config['database'];
         $dsn = 'mysql:host=' . $dbconfig['host'] . ';dbname=' . $dbconfig['name'];
-        $this->db = new PDO($dsn, $dbconfig['user'], $dbconfig['pass']);
-        $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $this->db = new \PDO($dsn, $dbconfig['user'], $dbconfig['pass']);
+        $this->db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
     }
     
     public function create() {
@@ -68,8 +71,8 @@ class UserController {
                 <input type="submit" name="create" value="Create User" />
             </form>
         ';
-        
-        require_once '../Views/layout.phtml';
+
+        require_once __DIR__ . '/../Views/layout.phtml';
         
     }
     
@@ -99,7 +102,7 @@ class UserController {
         $dsql = 'SELECT * FROM user WHERE username = ?';
         $stmt = $this->db->prepare($dsql);
         $stmt->execute(array($_SESSION['username']));
-        $details = $stmt->fetch(PDO::FETCH_ASSOC);
+        $details = $stmt->fetch(\PDO::FETCH_ASSOC);
         
         $content = '
         ' . $error . '<br />
@@ -114,7 +117,7 @@ class UserController {
             <input type="submit" name="updatepw" value="Create User" />
         </form>';
         
-        require_once '../Views/layout.phtml';
+        require_once __DIR__ . '/../Views/layout.phtml';
     }
     
     public function login() {
@@ -128,7 +131,7 @@ class UserController {
             $stmt = $this->db->prepare($sql);
             $stmt->execute(array($username, $password));
             if($stmt->rowCount() > 0) {
-               $data = $stmt->fetch(PDO::FETCH_ASSOC); 
+               $data = $stmt->fetch(\PDO::FETCH_ASSOC);
                session_regenerate_id();
                $_SESSION['username'] = $data['username'];
                $_SESSION['AUTHENTICATED'] = true;
@@ -148,9 +151,9 @@ class UserController {
                 <input type="submit" name="login" value="Log In" />
             </form>
         ';
-        
-        require_once('../Views/layout.phtml');
-        
+
+        require_once __DIR__ . '/../Views/layout.phtml';
+
     }
     
     public function logout() {

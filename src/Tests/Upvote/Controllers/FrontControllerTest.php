@@ -1,8 +1,10 @@
 <?php
 
-require_once 'bootstrap.php';
+namespace Tests\Upvote\Controllers;
 
-class MasterControllerTest extends PHPUnit_Framework_TestCase
+use Upvote\Controllers\FrontController;
+
+class MasterControllerTest extends \PHPUnit_Framework_TestCase
 {
 
     public static function determineController_UriAndRequestProvider()

@@ -1,5 +1,7 @@
 <?php
 
+namespace Upvote\Controllers;
+
 
 class FrontController
 {
@@ -21,7 +23,10 @@ class FrontController
 
     public function execute()
     {
-        $class = $this->getController();
+        $class = '\\Upvote\\Controllers\\' . $this->getController();
+        if (!class_exists($class)) {
+            $class = '\\Tests\\Upvote\\Controllers\\' . $this->getController();
+        }
         $method = $this->getMethod();
         $o = new $class($this->config);
         return $o->$method();
