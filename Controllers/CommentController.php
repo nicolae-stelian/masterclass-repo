@@ -1,30 +1,78 @@
 <?php
 
 
-class CommentController {
-    
-    public function __construct($config) {
-        $dbconfig = $config['database'];
-        $dsn = 'mysql:host=' . $dbconfig['host'] . ';dbname=' . $dbconfig['name'];
-        $this->db = new PDO($dsn, $dbconfig['user'], $dbconfig['pass']);
-        $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+class CommentController
+{
+
+    /** @var \PDO $db */
+    protected $db;
+
+    public function __construct($config)
+    {
+        $user = $config['database']['user'];
+        $pass = $config['database']['pass'];
+        $host = $config['database']['host'];
+        $dbName = $config['database']['name'];
+
+        $dsn = 'mysql:host=' . $host . ';dbname=' . $dbName;
+        $this->createDbLink($dsn, $user, $pass);
+
     }
-    
-    public function create() {
-        if(!isset($_SESSION['AUTHENTICATED'])) {
-            die('not auth');
-            header("Location: /");
-            exit;
+
+    public function create()
+    {
+        if (!$this->isAuthenticated()) {
+           throw new UserNotAuthenticatedException();
         }
-        
+
         $sql = 'INSERT INTO comment (created_by, created_on, story_id, comment) VALUES (?, NOW(), ?, ?)';
         $stmt = $this->db->prepare($sql);
-        $stmt->execute(array(
-            $_SESSION['username'],
-            $_POST['story_id'],
-            filter_input(INPUT_POST, 'comment', FILTER_SANITIZE_FULL_SPECIAL_CHARS),
-        ));
-        header("Location: /story/?id=" . $_POST['story_id']);
+        $stmt->execute(
+            array(
+                 $this->getUserName(),
+                 $this->getStoryId(),
+                 $this->validatePost('comment'),
+            )
+        );
+        header("Location: /story/?id=" . $this->getStoryId());
     }
-    
+
+    protected function isAuthenticated()
+    {
+        if (!isset($_SESSION['AUTHENTICATED'])) {
+            return false;
+        }
+        return true;
+    }
+
+    protected function createDbLink($dsn, $user, $pass)
+    {
+        $this->db = new PDO($dsn, $user, $pass);
+        $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    }
+
+    protected function getUserName()
+    {
+        return $_SESSION['username'];
+    }
+
+    /**
+     * @return mixed
+     */
+    protected function getStoryId()
+    {
+        return $_POST['story_id'];
+    }
+
+    /**
+     * @return mixed
+     */
+    protected function validatePost($field)
+    {
+        return filter_input(INPUT_POST, $field, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    }
 }
+
+class UserNotAuthenticatedException extends Exception{
+
+};
