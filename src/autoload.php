@@ -12,13 +12,15 @@ spl_autoload_register(
                 'tests\\upvote\\controllers\\mastercontrollertest' => '/Tests/Upvote/Controllers/FrontControllerTest.php',
                 'tests\\upvote\\controllers\\mockcommentcontroller' => '/Tests/Upvote/Controllers/CommentControllerTest.php',
                 'tests\\upvote\\controllers\\mockcontroller' => '/Tests/Upvote/Controllers/MockController.php',
+                'tests\\upvote\\controllers\\mockindexcontroller' => '/Tests/Upvote/Controllers/IndexControllerTest.php',
                 'upvote\\controllers\\commentcontroller' => '/Upvote/Controllers/CommentController.php',
                 'upvote\\controllers\\controller' => '/Upvote/Controllers/Controller.php',
                 'upvote\\controllers\\frontcontroller' => '/Upvote/Controllers/FrontController.php',
                 'upvote\\controllers\\indexcontroller' => '/Upvote/Controllers/IndexController.php',
                 'upvote\\controllers\\storycontroller' => '/Upvote/Controllers/StoryController.php',
                 'upvote\\controllers\\usercontroller' => '/Upvote/Controllers/UserController.php',
-                'upvote\\exceptions\\usernotauthenticatedexception' => '/Upvote/Exceptions/UserNotAuthenticatedException.php'
+                'upvote\\exceptions\\usernotauthenticatedexception' => '/Upvote/Exceptions/UserNotAuthenticatedException.php',
+                'upvote\\views\\view' => '/Upvote/Views/View.php'
             );
         }
         $cn = strtolower($class);

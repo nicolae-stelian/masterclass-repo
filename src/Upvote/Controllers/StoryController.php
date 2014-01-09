@@ -57,7 +57,7 @@ class StoryController extends Controller
             ';
         }
 
-        require_once __DIR__ . '/../Views/layout.phtml';
+        echo $this->view->parseLayout($content);;
 
     }
 
@@ -102,7 +102,7 @@ class StoryController extends Controller
             </form>
         ';
 
-        require_once __DIR__ . '/../Views/layout.phtml';
+        echo $this->view->parseLayout($content);
     }
 
 }

@@ -117,7 +117,7 @@ class UserController extends Controller
             <input type="submit" name="updatepw" value="Create User" />
         </form>';
 
-        require_once __DIR__ . '/../Views/layout.phtml';
+        echo $this->view->parseLayout($content);
     }
 
     public function login()
@@ -153,7 +153,7 @@ class UserController extends Controller
             </form>
         ';
 
-        require_once __DIR__ . '/../Views/layout.phtml';
+        echo $this->view->parseLayout($content);
 
     }
 

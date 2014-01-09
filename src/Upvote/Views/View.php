@@ -31,8 +31,9 @@ class View
         $params['content'] = $content;
 
         if (isset($_SESSION['AUTHENTICATED'])) {
-            $params['links']
-                = '<a href="/story/create">new</a> | <a href="/user/account">account</a> | <a href="/user/logout">logout</a>';
+            $params['links'] = '<a href="/story/create">new</a> ';
+            $params['links'] .= '| <a href="/user/account">account</a> ';
+            $params['links'] .= '| <a href="/user/logout">logout</a>';
         } else {
             $params['links'] = '<a href="/user/login">login</a>';
         }

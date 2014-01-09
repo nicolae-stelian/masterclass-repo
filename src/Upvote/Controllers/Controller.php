@@ -4,13 +4,18 @@
 namespace Upvote\Controllers;
 
 
+use Upvote\Views\View;
+
 class Controller
 {
     /** @var \PDO $db */
     protected $db;
+    /** @var View $view */
+    protected $view;
 
     public function __construct($config)
     {
+        $this->view = new View();
         $user = $config['database']['user'];
         $pass = $config['database']['pass'];
         $host = $config['database']['host'];

@@ -2,26 +2,21 @@
 
 namespace Upvote\Controllers;
 
-
 class IndexController extends Controller
 {
 
-
     public function index()
     {
-
         $stories = $this->getAllStories();
 
         $content = '<ol>';
-
         foreach ($stories as $story) {
             $count = $this->countComments($story);
             $content .= $this->generateStoryHtml($story, $count);
         }
-
         $content .= '</ol>';
 
-        require_once __DIR__ . '/../Views/layout.phtml';
+        echo $this->view->parseLayout($content);
     }
 
     /**
@@ -58,14 +53,14 @@ class IndexController extends Controller
      */
     protected function generateStoryHtml($story, $count)
     {
-        $content = '
-                <li>
-                <a class="headline" href="' . $story['url'] . '">' . $story['headline'] . '</a><br />
-                <span class="details">' . $story['created_by'] . ' | <a href="/story/?id=' . $story['id'] . '">'
-            . $count['count'] . ' Comments</a> |
-                ' . date('n/j/Y g:i a', strtotime($story['created_on'])) . '</span>
-                </li>
-            ';
-        return $content;
+        $params = array();
+        $params['url'] = $story['url'];
+        $params['headline'] = $story['headline'];
+        $params['created_by'] = $story['created_by'];
+        $params['id'] = $story['id'];
+        $params['count'] = $count['count'];
+        $params['created_on'] = date('n/j/Y g:i a', strtotime($story['created_on']));
+
+        return $this->view->parseTemplate('story.phtml', $params);
     }
 }
