@@ -18,7 +18,6 @@ class Controller
 
         $dsn = 'mysql:host=' . $host . ';dbname=' . $dbName;
         $this->createDbLink($dsn, $user, $pass);
-
     }
 
     protected function createDbLink($dsn, $user, $pass)
